@@ -8,16 +8,9 @@ import Blogs from "../Posts/index";
 import Home from "./../Home/index";
 import ContactUs from "./../ContactUs/index";
 
-import {
-  Navbar,
-  Nav,
-  Container,
-  Card,
-  Button,
-  CardGroup,
-  CardDeck,
-} from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, InputGroup } from "react-bootstrap";
 import "./style.css";
+import Search from "../Search";
 
 function HeaderNavbar() {
   return (
@@ -38,9 +31,7 @@ function HeaderNavbar() {
             </Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#search">
-              <FontAwesomeIcon icon="search" color="white" />
-            </Nav.Link>
+            <Search />
             <Nav.Link>
               <Link to="/signin">in</Link>{" "}
             </Nav.Link>

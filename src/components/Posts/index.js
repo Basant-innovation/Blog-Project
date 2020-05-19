@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { ReactDOM } from "react-dom";
 import HeaderNavbar from "../HeaderNavbar/index";
 import {
   Navbar,
@@ -9,59 +10,59 @@ import {
   CardGroup,
   CardDeck,
 } from "react-bootstrap";
+
+import { connect } from "react-redux";
+import Post from "../Post/post";
 /*import "./style.css";*/
 
-function Posts() {
+const Posts = ({ posts }) => {
+  // const [posts, setPosts] = useState([
+  //   {
+  //     id: "1",
+  //     img: "1.jpg",
+  //     title: "Forest",
+  //     breif: "Lorem ipsum",
+  //     authorimg: "profile.jpg",
+  //     author: "Ahmed",
+  //     date: "date.now()",
+  //   },
+  //   {
+  //     id: "2",
+  //     img: "2.jpg",
+  //     title: "Forest",
+  //     breif: "Lorem ipsum",
+  //     authorimg: "profile.jpg",
+  //     author: "Ahmed",
+  //     date: "date.now()",
+  //   },
+  //   {
+  //     id: "3",
+  //     img: "3.jpg",
+  //     title: "Forest",
+  //     breif: "Lorem ipsum",
+  //     authorimg: "profile.jpg",
+  //     author: "Ahmed",
+  //     date: "date.now()",
+  //   },
+  // ]);
   return (
     <React.Fragment>
       <HeaderNavbar />
       <Container>
         <section>
           <CardDeck>
-            <Card style={{ width: "18rem" }}>
-              <div className="imagec">
-                <Card.Img variant="top" src="1.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Read More</Button>
-              </Card.Body>
-            </Card>
-            <Card style={{ width: "18rem" }}>
-              <div class="imagec">
-                <Card.Img variant="top" src="2.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Read More</Button>
-              </Card.Body>
-            </Card>
-            <Card style={{ width: "18rem" }}>
-              <div class="imagec">
-                <Card.Img variant="top" src="3.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Read More</Button>
-              </Card.Body>
-            </Card>
+            {posts.map((post) => (
+              <Post key={post.id} {...post} />
+            ))}
           </CardDeck>
         </section>
       </Container>
     </React.Fragment>
   );
-}
+};
 
-export default Posts;
+const mapStateToProps = (state, ownProps) => ({
+  posts: state,
+});
+
+export default connect(mapStateToProps)(Posts);

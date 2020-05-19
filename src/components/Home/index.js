@@ -1,25 +1,17 @@
 import React, { useState, Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Card,
-  Button,
-  CardGroup,
-  CardDeck,
-  Image,
-} from "react-bootstrap";
+import { Container, Card, Button, CardDeck, Image } from "react-bootstrap";
 import { useSpring, animated } from "react-spring";
 import "./style.css";
 import About from "./../About/index";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import HeaderNavbar from "../HeaderNavbar/index";
+import LatestPosts from "./../LatestPosts/latestPosts";
+import { connect } from "react-redux";
+import Post from "../Post/post";
 
 const AnimFeTurbulence = animated("feTurbulence");
 const AnimFeDisplacementMap = animated("feDisplacementMap");
 
-function Home() {
+const Home = ({ posts }) => {
   const [open, toggle] = useState(false);
   const { freq, scale, transform, opacity } = useSpring({
     reverse: open,
@@ -90,62 +82,23 @@ L178,189.233l1.1-.366q5.8-2.142,11.808-4.807Zm3.03-13.375a2.124,2.124,0,0,1,2.4,
         <section>
           <h1>Latest Nature Posts</h1>
           <CardDeck>
-            <Card style={{ width: "18rem" }}>
-              <div class="imagec">
-                <Card.Img variant="top" src="1.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <div class="author">
-                  <div class="ProfileThumbnail">
-                    <Image src="profile.jpg" rounded />
-                  </div>
-                  <div>
-                    <p class="authorName">Ahmed Ali</p>
-                    <p class="blogDate">Jun 19, 2020</p>
-                  </div>
-                </div>
-                <Button variant="light">Read More</Button>
-              </Card.Body>
-            </Card>
-            <Card style={{ width: "18rem" }}>
-              <div class="imagec">
-                <Card.Img variant="top" src="2.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="light">Read More</Button>
-              </Card.Body>
-            </Card>
-            <Card style={{ width: "18rem" }}>
-              <div class="imagec">
-                <Card.Img variant="top" src="3.jpg" />
-              </div>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Button variant="light">Read More</Button>
-              </Card.Body>
-            </Card>
+            {posts.slice(Math.max(posts.length - 3, 0)).map((post) => (
+              <Post key={post.id} {...post} />
+            ))}
           </CardDeck>
         </section>
         <section>
           <About />
         </section>
       </Container>
+      <footer class="footer">
+        <p>&copy; 2020 Basant Amr.</p>
+      </footer>
     </React.Fragment>
   );
-}
+};
 
-export default Home;
+const mapStateToProps = (state, ownProps) => ({
+  posts: state,
+});
+export default connect(mapStateToProps)(Home);

@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Home from "./components/Home";
 import Posts from "./components/Posts";
@@ -20,7 +19,7 @@ import Profile from "./components/Profile/index";
 
 library.add(fab, faCheckSquare, faCoffee, fas);
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Switch>
@@ -33,6 +32,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

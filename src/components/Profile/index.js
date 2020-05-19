@@ -1,4 +1,8 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import Post from "./../Post/post";
+import HeaderNavbar from "./../HeaderNavbar/index";
+
 import {
   Form,
   Button,
@@ -11,8 +15,7 @@ import {
 } from "react-bootstrap";
 import "./style.css";
 
-import HeaderNavbar from "./../HeaderNavbar/index";
-function Profile() {
+const Profile = ({ posts }) => {
   return (
     <React.Fragment>
       <HeaderNavbar />
@@ -33,50 +36,21 @@ function Profile() {
           <Button>Follow</Button>
         </div>
       </Col>
+
       <Container>
         <CardDeck>
-          <Card style={{ width: "18rem" }}>
-            <div className="imagec">
-              <Card.Img variant="top" src="1.jpg" />
-            </div>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary">Read More</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "18rem" }}>
-            <div class="imagec">
-              <Card.Img variant="top" src="2.jpg" />
-            </div>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary">Read More</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "18rem" }}>
-            <div class="imagec">
-              <Card.Img variant="top" src="3.jpg" />
-            </div>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary">Read More</Button>
-            </Card.Body>
-          </Card>
+          {posts
+            .filter((post) => post.author == "Ahmed")
+            .map((post) => (
+              <Post key={post.id} {...post} />
+            ))}
         </CardDeck>
       </Container>
     </React.Fragment>
   );
-}
-export default Profile;
+};
+
+const mapStateToProps = (state, ownProps) => ({
+  posts: state,
+});
+export default connect(mapStateToProps)(Profile);
