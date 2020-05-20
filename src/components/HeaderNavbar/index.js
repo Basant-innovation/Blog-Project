@@ -16,7 +16,7 @@ function HeaderNavbar() {
   return (
     <React.Fragment>
       <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
-        <Navbar.Brand href="#home">Nature Blog</Navbar.Brand>
+        <Navbar.Brand href="#home">Bloture</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
@@ -24,18 +24,15 @@ function HeaderNavbar() {
               <Link to="/">Home</Link>
             </Nav.Link>
             <Nav.Link>
-              <Link to="/posts">Posts</Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link to="/contactus">Contact us</Link>
+              <Link to="/posts">Blog</Link>
             </Nav.Link>
           </Nav>
           <Nav>
-            <Search />
+            {/* <Search /> */}
             <Nav.Link>
               <Link to="/signin">in</Link>{" "}
             </Nav.Link>
-            <div>|</div>
+            <div className="seperator">|</div>
             <Nav.Link eventKey={2}>
               <Link to="/signup">up</Link>
             </Nav.Link>

@@ -19,9 +19,6 @@ function About() {
   return (
     <React.Fragment>
       <section className="aboutUs">
-        <div className="divAboutImage">
-          <Image className="aboutImage" src="aboutUs.jpg" rounded />
-        </div>
         <div className="trails-main" onClick={() => set((state) => !state)}>
           <div>
             {trail.map(({ x, height, ...rest }, index) => (
@@ -37,6 +34,9 @@ function About() {
               </animated.div>
             ))}
           </div>
+        </div>
+        <div className="divAboutImage">
+          <Image className="aboutImage" src="aboutUs.jpg" rounded />
         </div>
       </section>
     </React.Fragment>

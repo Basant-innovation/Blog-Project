@@ -2,9 +2,9 @@ import React, { useState, Component } from "react";
 import { Container, Card, Button, CardDeck, Image } from "react-bootstrap";
 import { useSpring, animated } from "react-spring";
 import "./style.css";
-import About from "./../About/index";
+import About from "../About/index";
 import HeaderNavbar from "../HeaderNavbar/index";
-import LatestPosts from "./../LatestPosts/latestPosts";
+import LatestPosts from "../LatestPosts/latestPosts";
 import { connect } from "react-redux";
 import Post from "../Post/post";
 
@@ -92,7 +92,13 @@ L178,189.233l1.1-.366q5.8-2.142,11.808-4.807Zm3.03-13.375a2.124,2.124,0,0,1,2.4,
         </section>
       </Container>
       <footer class="footer">
-        <p>&copy; 2020 Basant Amr.</p>
+        <p>&copy; 2020 Made by: Basant Amr.</p>
+        <div className="socialMedia">
+          <p>Follow me on:</p>
+          <Image className="SMIcon" src="linkedIn.png" />
+          <Image className="SMIcon" src="gitHub.png" />
+          <Image className="SMIcon" src="behance.png" />
+        </div>
       </footer>
     </React.Fragment>
   );

@@ -113,3 +113,23 @@ section {
 img {
   width: 50px;
 }
+
+.footer {
+  background-color: #1c5648;
+  height: 80px;
+  padding: 5rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.socialMedia {
+  display: flex;
+  justify-content: space-between;
+}
+
+.SMIcon {
+  margin-left: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}

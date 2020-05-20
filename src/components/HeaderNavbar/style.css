@@ -1,0 +1,30 @@
+.navbar-brand {
+  font-family: Vivaldi;
+  font-size: 50px !important;
+  color: #1c5648 !important;
+}
+
+a.nav-link {
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #1c5648 !important;
+}
+
+a.nav-link:hover {
+  padding: 5px 0px;
+  color: #93b05a;
+  border-bottom: 3px solid #93b05a;
+  translate: border-bottom 0.3s ease-in-out;
+}
+
+a {
+  text-decoration: none !important;
+  color: #1c5648 !important;
+}
+
+.seperator {
+  font-weight: 700;
+  color: #1c5648 !important;
+  margin: auto;
+}
