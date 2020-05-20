@@ -6,7 +6,6 @@ import About from "./../About/index";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Blogs from "../Posts/index";
 import Home from "./../Home/index";
-import ContactUs from "./../ContactUs/index";
 
 import { Navbar, Nav, Form, FormControl, InputGroup } from "react-bootstrap";
 import "./style.css";
@@ -27,16 +26,23 @@ function HeaderNavbar() {
               <Link to="/posts">Blog</Link>
             </Nav.Link>
           </Nav>
-          <Nav>
-            {/* <Search /> */}
-            <Nav.Link>
-              <Link to="/signin">in</Link>{" "}
-            </Nav.Link>
-            <div className="seperator">|</div>
+
+          {/* <Search /> */}
+          {!true ? (
+            <Nav>
+              <Nav.Link>
+                <Link to="/signin">in</Link>{" "}
+              </Nav.Link>
+              <div className="seperator">|</div>
+              <Nav.Link>
+                <Link to="/signup">up</Link>
+              </Nav.Link>
+            </Nav>
+          ) : (
             <Nav.Link eventKey={2}>
-              <Link to="/signup">up</Link>
+              <Link to="/signup">log out</Link>
             </Nav.Link>
-          </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </React.Fragment>

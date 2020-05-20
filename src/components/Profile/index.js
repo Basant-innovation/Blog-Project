@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import Post from "./../Post/post";
 import HeaderNavbar from "./../HeaderNavbar/index";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import {
   Form,
@@ -11,40 +12,53 @@ import {
   Image,
   Card,
   ListGroup,
-  CardDeck,
+  CardGroup,
 } from "react-bootstrap";
-import "./style.css";
+import "./profile.css";
 
 const Profile = ({ posts }) => {
   return (
     <React.Fragment>
       <HeaderNavbar />
-      <Col xs={6} md={4}>
-        <div class="profilePic">
-          <Image src="profile.jpg" rounded />
+
+      <div className="profileCover">
+        <Image src="1.jpg" />
+      </div>
+      <section className="profileSection">
+        <div className="profilePic">
+          <Image className="InnerPic" src="profile.jpg" rounded />
         </div>
         <div class="profileInfo">
-          <h3>Ahmed Ali</h3>
-          <h6>Junior Journalist</h6>
-          <Card style={{ width: "18rem" }}>
-            <ListGroup variant="flush">
-              <ListGroup.Item>19 Blogs</ListGroup.Item>
-              <ListGroup.Item>180 Followers</ListGroup.Item>
-              <ListGroup.Item>230 Following</ListGroup.Item>
-            </ListGroup>
-          </Card>
-          <Button>Follow</Button>
+          <div class="authorInfo">
+            <p>Ahmed Ali</p>
+            <p>Junior Journalist</p>
+
+            <Card className="infoNo" style={{ width: "18rem" }}>
+              <ListGroup variant="flush" className="listInfo">
+                <ListGroup.Item>19 Posts</ListGroup.Item>
+                <ListGroup.Item>180 Followers</ListGroup.Item>
+                <ListGroup.Item>230 Following</ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </div>
         </div>
-      </Col>
+        {!true ? (
+          <Button className="actionBtn">Follow</Button>
+        ) : (
+          <Link to="/addPostForm">
+            <Button className="actionBtn">Add Post</Button>
+          </Link>
+        )}
+      </section>
 
       <Container>
-        <CardDeck>
+        <CardGroup>
           {posts
             .filter((post) => post.author == "Ahmed")
             .map((post) => (
               <Post key={post.id} {...post} />
             ))}
-        </CardDeck>
+        </CardGroup>
       </Container>
     </React.Fragment>
   );

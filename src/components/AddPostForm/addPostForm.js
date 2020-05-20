@@ -1,7 +1,26 @@
-import React from "react";
-import { FormGroup } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import { FormGroup, Form, Overlay, Tooltip, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const AddPostForm = () => {
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+  const [user, setUser] = useState({
+    username: "",
+    title: "",
+    email: "",
+    password: "",
+  });
+
+  const onHandleSubmit = (event) => {
+    event.preventDefault();
+    console.log("err");
+  };
+
+  const onHandleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  };
+
   return (
     <React.Fragment>
       <Form onSubmit={onHandleSubmit}>
