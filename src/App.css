@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital@1&display=swap");
+* {
+  font-family: "Raleway", sans-serif;
+}
+.bg-transparent {
+  background: transparent;
+  position: absolute !important;
+  top: 0px;
+  width: 100%;
+  padding: 2rem 5rem !important;
+}
+
+header {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0px;
+  max-width: 100%;
+  max-height: 100%;
+}
