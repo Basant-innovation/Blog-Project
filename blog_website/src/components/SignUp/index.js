@@ -3,6 +3,8 @@ import { Form, Button, Container, Overlay, Tooltip } from "react-bootstrap";
 import Joi from "joi-browser";
 import { createPopper } from "@popperjs/core";
 
+import axios from "axois";
+
 const SignUp = () => {
   const [show, setShow] = useState(false);
   const target = useRef(null);
@@ -30,11 +32,16 @@ const SignUp = () => {
     event.preventDefault();
     Joi.validate(user, schema, function (err, value) {
       if (err !== null) {
+        //showing tooltip of errors
         setShow(true);
-        //event.username.text = "how are you today";
       } else {
         setShow(false);
+
+        axios
+          .post("http://localhost:5000/users/add", user)
+          .then((res) => console.log(res.data));
       }
+
       console.log("err", err);
       console.log("value", value);
     });
