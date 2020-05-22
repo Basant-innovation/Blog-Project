@@ -1,5 +1,6 @@
 const express = require("express");
-const postRouter = require("./routes/posts");
+const postsRouter = require("./routes/posts");
+const usersRouter = require("./routes/users");
 const app = express();
 const port = 5000;
 
@@ -7,7 +8,10 @@ const port = 5000;
 const mongoose = require("mongoose");
 const dBUrl = require("./config");
 
-app.use("/posts", postRouter);
+app.use(express.json());
+app.use("/posts", postsRouter);
+app.use("/users", usersRouter);
+
 app.get("/", (req, res) => {
   res.send("hello");
 });
@@ -22,9 +26,6 @@ mongoose
   .then(() => console.log("Connected To mongoose successfully!"))
   .catch((err) => console.error(err));
 
-app.listen(
-  (port,
-  () => {
-    console.log(`blog app listening at http://localhost:${port}`);
-  })
+app.listen(port, () =>
+  console.log(`blog app listening at http://localhost:${port}`)
 );

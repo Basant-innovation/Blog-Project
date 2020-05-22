@@ -19,7 +19,7 @@ const SignUp = () => {
     username: Joi.string().alphanum().min(3).max(30).required(),
     title: Joi.string().required(),
     password: Joi.string()
-      .regex(/^[a-zA-Z0-9]{6,30}$/)
+      .regex(/^[a-zA-Z0-9]{8,30}$/)
       .required(),
     email: Joi.string().email().required(),
   });
