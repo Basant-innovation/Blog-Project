@@ -6,7 +6,7 @@ const port = 5000;
 
 //connection to moongoose we have to move it to db file after working
 const mongoose = require("mongoose");
-const dBUrl = require("./config");
+const { dBUrl } = require("./config");
 
 app.use(express.json());
 app.use("/posts", postsRouter);

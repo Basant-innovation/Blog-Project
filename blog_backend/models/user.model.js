@@ -25,12 +25,12 @@ const userSchema = new Schema(
     imgUrl: {
       type: String,
     },
-    // following: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //   },
-    // ],
+    following: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,

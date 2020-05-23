@@ -21,13 +21,11 @@ const postSchema = new Schema(
     publish_date: {
       type: Date,
     },
-    // author: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: [true, 'Author is required!'],
-    //   },
-    // ],
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Author is required!"],
+    },
   },
   {
     timestamps: true,

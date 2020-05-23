@@ -1,6 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 let User = require("../models/user.model");
+
+const { tokenSecret } = require("../config");
+const {
+  signUpValidation,
+  signInValidation,
+} = require("../middlewares/validate");
 
 //to make it clean make a folder called controller
 // that has all crud operation functionallity and then import it to this file
@@ -14,39 +22,52 @@ let User = require("../models/user.model");
 ////////////////////////////////////////////////////////////////////////
 
 //routes to the controllers
-router.route("/add").post((req, res) => {
+router.route("/signup").post(async (req, res) => {
+  //validate
+  const { error } = signUpValidation(req.body);
+  if (error) return res.status(400).send("Error: " + error.details[0].message);
+
   const username = req.body.username;
   const title = req.body.title;
-  const password = req.body.password;
+  const unhashedPassword = req.body.password;
   const email = req.body.email;
-  const newUser = new User({ username, title, password, email });
 
-  newUser
-    .save()
-    .then(() => res.json("User added"))
-    .catch((err) => res.status(400).json("Error" + err));
+  //checking if the user is already in the database before adding it
+  const emailExists = await User.findOne({ email });
+  if (emailExists) return res.status(400).send("Email already exists");
+
+  //Hash the password
+  const salt = await bcrypt.genSalt(10);
+  const password = await bcrypt.hash(unhashedPassword, salt);
+
+  //adding and saving new user to database
+  const newUser = new User({ username, title, password, email });
+  try {
+    await newUser.save();
+    res.status(201).send("User added");
+  } catch (err) {
+    res.status(400).send("Error: " + err);
+  }
 });
 
-// validateLogin([
-//   body('email')
-//     .exists()
-//     .withMessage('Email is required')
-//     .matches(emailRegex)
-//     .withMessage('Email is invalid'),
-//   body('password').exists().withMessage('Password is required'),
-// ]);
+router.route("/signin").post(async (req, res) => {
+  //validate
+  const { error } = signInValidation(req.body);
+  if (error) return res.status(400).send("Error: " + error.details[0].message);
 
-// router.route("/login").post(validateLogin,(req, res) => {
-//   const username = req.body.username;
-//   const title = req.body.title;
-//   const password = req.body.password;
-//   const email = req.body.email;
-//   const newUser = new User({ username, title, password, email });
+  const password = req.body.password;
+  const email = req.body.email;
 
-//   newUser
-//     .save()
-//     .then(() => res.json("User added"))
-//     .catch((err) => res.status(400).json("Error" + err));
-// });
+  //checking email in the database
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).send("Invalid email address");
+
+  //checking if password is correect
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) return res.status(400).send("Invalid Password");
+
+  const token = jwt.sign({ _id: user._id }, tokenSecret);
+  res.header("auth-token", token).send(token);
+});
 
 module.exports = router;
