@@ -3,20 +3,20 @@ const router = express.Router();
 const verify = require("../middlewares/verify_token");
 
 let Post = require("../models/post.model");
-//شغلي الجت يا بسنت فيها غلط
+
+//get all posts
 router.route("/").get(async (req, res) => {
-  //get all with pagination reem
   const postsPerPage = 4;
-  const page = req.params.page || 1;
-  const totalPosts = await Post.countDocuments();
+  const page = parseInt(req.query);
   const posts = await Post.find()
-    .populate("author")
     .sort({ updatedAt: -1 })
     .skip(postsPerPage * page - postsPerPage)
     .limit(postsPerPage);
-  return { totalPosts, posts };
+  const totalPosts = await Post.countDocuments();
+  res.json({ totalPosts, posts });
 });
 
+//add post
 router.route("/add").post(verify, (req, res) => {
   //res.send(req.user); عشان اعمل التوكن
   const title = req.body.title;
@@ -40,6 +40,7 @@ router.route("/add").post(verify, (req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
+//edit post
 router.route("/edit/:id").post(verify, (req, res) => {
   Post.findById(req.params.id)
     .then((post) => {
@@ -56,18 +57,20 @@ router.route("/edit/:id").post(verify, (req, res) => {
     .catch((err) => res.status(400).json("Error " + err));
 });
 
-//find posts of author reem
+//get signedin user posts
 router.route("/myposts").get(verify, async (req, res) => {
   const myposts = await Post.find({ author: req.user._id });
   res.status(200).json(myposts);
 });
 
+//get posts by id
 router.route("/:id").get((req, res) => {
   Post.findById(req.params.id)
     .then((post) => res.json(post))
     .catch((err) => res.status(400).json("Error" + err));
 });
 
+//delete post
 router.route("/:id").delete(verify, (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() => res.json("Post deleted"))
