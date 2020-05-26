@@ -52,14 +52,15 @@ export const getUserById = (id) => {
     console.log(id);
     try {
       const res = await axios.get(`http://localhost:5000/users/${id}`);
-      return res.response.header;
+      dispatch({ type: "GET_USER", user: res.data });
+      console.log(res);
+      return res.data;
     } catch (err) {
       if (err.response) {
         console.log(err.response.status);
         alert(err.response.data);
       }
     }
-    dispatch({ type: "GET_USER" });
   };
 };
 

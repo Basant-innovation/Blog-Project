@@ -22,15 +22,30 @@ import {
 } from "react-bootstrap";
 import "./profile.css";
 import { GetLocalStorageUser } from "./../../utilties/localStorage";
-import AddPostForm from "./../AddPostForm/addPostForm";
+import PostForm from "../PostForm/postForm";
 
-const Profile = ({ posts, user, getMyPost, getUserById }) => {
+const Profile = ({
+  posts,
+  currentUser,
+  user,
+  getMyPost,
+  getUserById,
+  match,
+}) => {
   useEffect(() => {
     getMyPost();
-  }, []);
+    const userId = match.params.id;
+    console.log(userId);
+    if (userId !== undefined) {
+      getUserById(userId);
+    } else {
+      getUserById(currentUser._id);
+    }
+    //user = currentUser;
+    console.log(user);
+  }, [match.params.id]);
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -41,7 +56,7 @@ const Profile = ({ posts, user, getMyPost, getUserById }) => {
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <div className="overlay">
-          <AddPostForm />
+          <PostForm handleClose={handleClose} />
         </div>
       </Modal>
 
@@ -63,12 +78,12 @@ const Profile = ({ posts, user, getMyPost, getUserById }) => {
               <ListGroup variant="flush" className="listInfo">
                 <ListGroup.Item>19 Posts</ListGroup.Item>
                 <ListGroup.Item>180 Followers</ListGroup.Item>
-                <ListGroup.Item>230 Following</ListGroup.Item>
+                <ListGroup.Item>{user.following}</ListGroup.Item>
               </ListGroup>
             </Card>
           </div>
         </div>
-        {!true ? (
+        {currentUser._id !== user._id ? (
           <Button className="actionBtn">Follow</Button>
         ) : (
           <Button className="actionBtn" onClick={handleShow}>
@@ -90,7 +105,8 @@ const Profile = ({ posts, user, getMyPost, getUserById }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   posts: state.posts,
-  user: state.users.currentUser,
+  currentUser: state.users.currentUser,
+  user: state.users.user,
 });
 // const mapDispatchToProps = (dispatch, ownProps) => ({
 //   signIn : dispatch(sin)

@@ -41,9 +41,14 @@ const HeaderNavbar = (props) => {
               </Nav.Link>
             </Nav>
           ) : (
-            <Nav.Link as={Link} to="/" onClick={props.logOutUser}>
-              Logout
-            </Nav.Link>
+            <Nav>
+              <Nav.Link as={Link} to={`/profile/${props.currentUser._id}`}>
+                My Profile
+              </Nav.Link>
+              <Nav.Link as={Link} to="/" onClick={props.logOutUser}>
+                Logout
+              </Nav.Link>
+            </Nav>
           )}
         </Navbar.Collapse>
       </Navbar>

@@ -3,24 +3,35 @@ import { FormGroup, Form, Overlay, Tooltip, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { connect } from "react-redux";
-import { addPost } from "./../../redux/actions/posts";
+import { addPost } from "../../redux/actions/posts";
 
-const AddPostForm = (props) => {
+const PostForm = (props) => {
   const [show, setShow] = useState(false);
+  const [tags, setTags] = useState([]);
+  const addTags = (e) => {
+    if (e.key === "Enter" && e.target.value !== "" && e.preventDefault()) {
+      setTags([...tags, e.target.value]);
+      e.target.value = "";
+    }
+  };
+  const removeTags = (index) => {
+    setTags([...tags.filter((tag) => tags.indexOf(tag) !== index)]);
+  };
   const target = useRef(null);
   const [post, setPost] = useState({
     title: "",
     content: "",
     imgUrl: "",
-    tags: "",
+    tags: [],
   });
 
   const onHandleSubmit = async (event) => {
     event.preventDefault();
+    post.tags = tags;
     console.log(post);
-    const res = await props.addPost(post);
 
-    // props.history.replace("/Profile");
+    const res = await props.addPost(post);
+    props.handleClose();
   };
 
   const onHandleChange = (event) => {
@@ -48,7 +59,6 @@ const AddPostForm = (props) => {
         </Form.Group>
         <Form.File.Label>Upload Image</Form.File.Label>
         <Form.File id="custom-file" label="Custom file input" custom />
-
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Label>blog Content</Form.Label>
           <Form.Control
@@ -58,24 +68,37 @@ const AddPostForm = (props) => {
             onChange={onHandleChange}
           />
         </Form.Group>
-
         <FormGroup>
           <ul>
-            <li>
-              {" "}
-              tag{" "}
-              <button>
-                <FontAwesomeIcon icon="times" color="white" />
-              </button>
-            </li>
+            {tags.map((tag, index) => (
+              <li key={index}>
+                {tag}
+                <i onClick={() => removeTags(index)}>
+                  <FontAwesomeIcon icon="times" color="white" />
+                </i>
+              </li>
+            ))}
           </ul>
+          <Form.Control
+            name="tags"
+            type="text"
+            placeholder="press enter to add tags"
+            // onKeyUp={(e) => addTags(e)}
+          ></Form.Control>
         </FormGroup>
-        <Button variant="primary" type="submit">
-          Add Post
-        </Button>
+        {/* //props.match.params === "addpost" */}
+        {true ? (
+          <Button variant="primary" type="submit">
+            Add Post
+          </Button>
+        ) : (
+          <Button variant="primary" type="submit">
+            Edit Post
+          </Button>
+        )}
       </Form>
     </React.Fragment>
   );
 };
 
-export default connect(null, { addPost })(AddPostForm);
+export default connect(null, { addPost })(PostForm);

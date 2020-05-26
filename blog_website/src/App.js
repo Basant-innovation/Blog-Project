@@ -5,7 +5,7 @@ import Posts from "./components/Posts";
 import SignIn from "./components/SignIn/index";
 import SignUp from "./components/SignUp/index";
 import Profile from "./components/Profile/index";
-import AddPostForm from "./components/AddPostForm/addPostForm";
+import PostForm from "./components/PostForm/postForm";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -36,7 +36,7 @@ const App = (props) => {
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/profile/:id?" component={Profile} />
-        <Route path="/addPostForm" component={AddPostForm} />
+        <Route path="/postForm" component={PostForm} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

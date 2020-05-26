@@ -77,15 +77,16 @@ router.route("/").post(async (req, res) => {
   res.json(users);
 });
 
-//get user by id
-router.route("/:id").post(verify, async (req, res) => {
-  const user = await Post.findById(req.params.id);
-  res.json(user);
-});
-
+//get currentUser
 router.route("/getCurrentUser").get(verify, async (req, res) => {
   const user = await User.findById(req.user._id);
   res.json({ user });
+});
+
+//get user by id
+router.route("/:id").get(verify, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
 });
 
 module.exports = router;
