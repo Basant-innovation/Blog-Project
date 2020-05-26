@@ -58,3 +58,10 @@
   margin: 0;
   padding: 0;
 }
+
+form.addForm {
+  width: 60vw;
+  background-color: #1c5648;
+  padding: 5%;
+  margin: 0 auto;
+}

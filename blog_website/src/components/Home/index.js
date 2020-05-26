@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { Container, Card, Button, CardDeck, Image } from "react-bootstrap";
 import { useSpring, animated } from "react-spring";
 import "./style.css";
@@ -7,11 +7,16 @@ import HeaderNavbar from "../HeaderNavbar/index";
 import LatestPosts from "../LatestPosts/latestPosts";
 import { connect } from "react-redux";
 import Post from "../Post/post";
+import { getAllPosts } from "./../../redux/actions/posts";
 
 const AnimFeTurbulence = animated("feTurbulence");
 const AnimFeDisplacementMap = animated("feDisplacementMap");
 
-const Home = ({ posts }) => {
+const Home = ({ posts, getAllPosts }) => {
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
   const [open, toggle] = useState(false);
   const { freq, scale, transform, opacity } = useSpring({
     reverse: open,
@@ -27,7 +32,7 @@ const Home = ({ posts }) => {
   return (
     <React.Fragment>
       <header>
-        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
+        <video autoplay="autoPlay" loop="loop" id="backgroundVideo">
           <source src="background_video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -83,7 +88,7 @@ L178,189.233l1.1-.366q5.8-2.142,11.808-4.807Zm3.03-13.375a2.124,2.124,0,0,1,2.4,
           <h1>Latest Nature Posts</h1>
           <CardDeck>
             {posts.slice(Math.max(posts.length - 3, 0)).map((post) => (
-              <Post key={post.id} {...post} />
+              <Post key={post.id} posts={post} />
             ))}
           </CardDeck>
         </section>
@@ -105,6 +110,6 @@ L178,189.233l1.1-.366q5.8-2.142,11.808-4.807Zm3.03-13.375a2.124,2.124,0,0,1,2.4,
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  posts: state,
+  posts: state.posts,
 });
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { getAllPosts })(Home);

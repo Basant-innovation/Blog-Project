@@ -2,28 +2,34 @@ import React, { useState, useRef } from "react";
 import { FormGroup, Form, Overlay, Tooltip, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const AddPostForm = () => {
+import { connect } from "react-redux";
+import { addPost } from "./../../redux/actions/posts";
+
+const AddPostForm = (props) => {
   const [show, setShow] = useState(false);
   const target = useRef(null);
-  const [user, setUser] = useState({
-    username: "",
+  const [post, setPost] = useState({
     title: "",
-    email: "",
-    password: "",
+    content: "",
+    imgUrl: "",
+    tags: "",
   });
 
-  const onHandleSubmit = (event) => {
+  const onHandleSubmit = async (event) => {
     event.preventDefault();
-    console.log("err");
+    console.log(post);
+    const res = await props.addPost(post);
+
+    // props.history.replace("/Profile");
   };
 
   const onHandleChange = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setPost({ ...post, [event.target.name]: event.target.value });
   };
 
   return (
     <React.Fragment>
-      <Form onSubmit={onHandleSubmit}>
+      <Form onSubmit={onHandleSubmit} className="addForm">
         <Form.Group ref={target} controlId="formBasicName">
           <Form.Label>Post Title</Form.Label>
           <Form.Control
@@ -45,7 +51,12 @@ const AddPostForm = () => {
 
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Label>blog Content</Form.Label>
-          <Form.Control as="textarea" rows="3" />
+          <Form.Control
+            name="content"
+            as="textarea"
+            rows="3"
+            onChange={onHandleChange}
+          />
         </Form.Group>
 
         <FormGroup>
@@ -67,4 +78,4 @@ const AddPostForm = () => {
   );
 };
 
-export default AddPostForm;
+export default connect(null, { addPost })(AddPostForm);

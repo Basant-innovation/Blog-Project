@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Home from "./components/Home";
 import Posts from "./components/Posts";
@@ -16,17 +16,26 @@ import {
   fas,
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import axios from "axios";
+import { getCurrentUser } from "./redux/actions/users";
+import { connect } from "react-redux";
 
 library.add(fab, faCheckSquare, faCoffee, fas);
 
-const App = () => {
+const App = (props) => {
+  useEffect(() => {
+    if (localStorage.getItem("token")) props.getCurrentUser();
+  });
+
+  axios.defaults.headers.common["auth-token"] = localStorage.getItem("token");
+
   return (
     <Router>
       <Switch>
         <Route path="/posts" component={Posts} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/profile/:id?" component={Profile} />
         <Route path="/addPostForm" component={AddPostForm} />
         <Route path="/" component={Home} />
       </Switch>
@@ -34,4 +43,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(null, { getCurrentUser })(App);

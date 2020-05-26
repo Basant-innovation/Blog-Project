@@ -7,11 +7,12 @@ let Post = require("../models/post.model");
 //get all posts
 router.route("/").get(async (req, res) => {
   const postsPerPage = 4;
-  const page = parseInt(req.query);
+  const page = parseInt(req.query.page);
   const posts = await Post.find()
     .sort({ updatedAt: -1 })
     .skip(postsPerPage * page - postsPerPage)
-    .limit(postsPerPage);
+    .limit(postsPerPage)
+    .populate("author");
   const totalPosts = await Post.countDocuments();
   res.json({ totalPosts, posts });
 });

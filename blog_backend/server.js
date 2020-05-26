@@ -2,6 +2,7 @@ const express = require("express");
 const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
 const app = express();
+var cors = require("cors");
 const port = 5000;
 
 //connection to moongoose we have to move it to db file after working
@@ -9,6 +10,7 @@ const mongoose = require("mongoose");
 const { dBUrl } = require("./config");
 
 app.use(express.json());
+app.use(cors());
 app.use("/posts", postsRouter);
 app.use("/users", usersRouter);
 

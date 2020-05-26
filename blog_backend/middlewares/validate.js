@@ -2,7 +2,7 @@ const Joi = require("@hapi/joi");
 
 const signUpValidation = (data) => {
   const schema = Joi.object().keys({
-    username: Joi.string().alphanum().min(3).max(30).required(),
+    username: Joi.string().min(3).max(30).required(),
     title: Joi.string().required(),
     password: Joi.string()
       .regex(/^[a-zA-Z0-9]{8,30}$/)

@@ -10,8 +10,10 @@ import Home from "./../Home/index";
 import { Navbar, Nav, Form, FormControl, InputGroup } from "react-bootstrap";
 import "./style.css";
 import Search from "../Search";
+import { connect } from "react-redux";
+import { logOutUser } from "./../../redux/actions/users";
 
-function HeaderNavbar() {
+const HeaderNavbar = (props) => {
   return (
     <React.Fragment>
       <Navbar collapseOnSelect expand="lg" bg="transparent" variant="dark">
@@ -19,34 +21,38 @@ function HeaderNavbar() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link>
-              <Link to="/">Home</Link>
+            <Nav.Link as={Link} to="/">
+              Home
             </Nav.Link>
-            <Nav.Link>
-              <Link to="/posts">Blog</Link>
+            <Nav.Link as={Link} to="/posts">
+              Blog
             </Nav.Link>
           </Nav>
 
           {/* <Search /> */}
-          {!true ? (
+          {!props.currentUser._id ? (
             <Nav>
-              <Nav.Link>
-                <Link to="/signin">in</Link>{" "}
+              <Nav.Link as={Link} to="/signin">
+                in
               </Nav.Link>
               <div className="seperator">|</div>
-              <Nav.Link>
-                <Link to="/signup">up</Link>
+              <Nav.Link as={Link} to="/signup">
+                up
               </Nav.Link>
             </Nav>
           ) : (
-            <Nav.Link eventKey={2}>
-              <Link to="/signup">log out</Link>
+            <Nav.Link as={Link} to="/" onClick={props.logOutUser}>
+              Logout
             </Nav.Link>
           )}
         </Navbar.Collapse>
       </Navbar>
     </React.Fragment>
   );
-}
+};
 
-export default HeaderNavbar;
+const mapStateToProps = (state, ownProps) => ({
+  currentUser: state.users.currentUser,
+});
+
+export default connect(mapStateToProps, { logOutUser })(HeaderNavbar);

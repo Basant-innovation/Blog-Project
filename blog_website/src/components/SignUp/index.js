@@ -3,9 +3,11 @@ import { Form, Button, Container, Overlay, Tooltip } from "react-bootstrap";
 import Joi from "joi-browser";
 import { createPopper } from "@popperjs/core";
 
-import axios from "axois";
+import { signUpUser, signInUser } from "./../../redux/actions/users";
+import { SetLocalStorage } from "./../../utilties/localStorage";
+import { connect } from "react-redux";
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [show, setShow] = useState(false);
   const target = useRef(null);
   const [user, setUser] = useState({
@@ -16,7 +18,7 @@ const SignUp = () => {
   });
 
   const schema = Joi.object().keys({
-    username: Joi.string().alphanum().min(3).max(30).required(),
+    username: Joi.string().min(3).max(30).required(),
     title: Joi.string().required(),
     password: Joi.string()
       .regex(/^[a-zA-Z0-9]{8,30}$/)
@@ -36,12 +38,14 @@ const SignUp = () => {
         setShow(true);
       } else {
         setShow(false);
-
-        axios
-          .post("http://localhost:5000/users/add", user)
-          .then((res) => console.log(res.data));
+        console.log("before user signed up");
+        props.signUpUser(user);
+        console.log("after user signed up");
+        //try to catch errors before redirecting or make sure that the user have registered
+        // const token = SignInUser(user.email, user.password);
+        // SetLocalStorage(token);
+        // props.history.replace("/Profile");
       }
-
       console.log("err", err);
       console.log("value", value);
     });
@@ -120,4 +124,4 @@ const SignUp = () => {
     </React.Fragment>
   );
 };
-export default SignUp;
+export default connect(null, { signUpUser })(SignUp);

@@ -1,0 +1,32 @@
+.form.container {
+  top: 20%;
+}
+
+.formbox {
+  width: 45%;
+  min-width: 250px;
+}
+.pageTitle {
+  font-size: 2rem;
+  text-align: center;
+  color: #1c5648;
+  font-weight: 900;
+}
+.pageTitle > p {
+  font-size: 3rem;
+  font-family: Vivaldi;
+}
+
+.btn-primary {
+  border-radius: 0 !important;
+  background-color: rgba(236, 243, 243, 0.075) !important;
+  border: 2px solid white !important;
+}
+
+.btn-primary:hover {
+  border-radius: 0 !important;
+  background-color: white !important;
+  border: 2px solid white !important;
+  color: #1c5648 !important;
+  transition: all 0.3ms;
+}

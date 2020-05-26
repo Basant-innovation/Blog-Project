@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Post from "./../Post/post";
 import HeaderNavbar from "./../HeaderNavbar/index";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+//import {} from "../../redux/actions/users";
+import { getMyPost } from "../../redux/actions/posts";
+import { getUserById } from "../../redux/actions/users";
 
 import {
   Form,
@@ -13,12 +16,35 @@ import {
   Card,
   ListGroup,
   CardGroup,
+  CardColumns,
+  CardDeck,
+  Modal,
 } from "react-bootstrap";
 import "./profile.css";
+import { GetLocalStorageUser } from "./../../utilties/localStorage";
+import AddPostForm from "./../AddPostForm/addPostForm";
 
-const Profile = ({ posts }) => {
+const Profile = ({ posts, user, getMyPost, getUserById }) => {
+  useEffect(() => {
+    getMyPost();
+  }, []);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <React.Fragment>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <div className="overlay">
+          <AddPostForm />
+        </div>
+      </Modal>
+
       <HeaderNavbar />
 
       <div className="profileCover">
@@ -28,10 +54,10 @@ const Profile = ({ posts }) => {
         <div className="profilePic">
           <Image className="InnerPic" src="profile.jpg" rounded />
         </div>
-        <div class="profileInfo">
-          <div class="authorInfo">
-            <p>Ahmed Ali</p>
-            <p>Junior Journalist</p>
+        <div className="profileInfo">
+          <div className="authorInfo">
+            <p>{user.username}</p>
+            <p>{user.title}</p>
 
             <Card className="infoNo" style={{ width: "18rem" }}>
               <ListGroup variant="flush" className="listInfo">
@@ -45,26 +71,28 @@ const Profile = ({ posts }) => {
         {!true ? (
           <Button className="actionBtn">Follow</Button>
         ) : (
-          <Link to="/addPostForm">
-            <Button className="actionBtn">Add Post</Button>
-          </Link>
+          <Button className="actionBtn" onClick={handleShow}>
+            Add Post
+          </Button>
         )}
       </section>
 
       <Container>
-        <CardGroup>
-          {posts
-            .filter((post) => post.author == "Ahmed")
-            .map((post) => (
-              <Post key={post.id} {...post} />
-            ))}
-        </CardGroup>
+        <CardDeck className="">
+          {posts.map((post) => (
+            <Post key={post.id} posts={post} />
+          ))}
+        </CardDeck>
       </Container>
     </React.Fragment>
   );
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  posts: state,
+  posts: state.posts,
+  user: state.users.currentUser,
 });
-export default connect(mapStateToProps)(Profile);
+// const mapDispatchToProps = (dispatch, ownProps) => ({
+//   signIn : dispatch(sin)
+// })
+export default connect(mapStateToProps, { getMyPost, getUserById })(Profile);

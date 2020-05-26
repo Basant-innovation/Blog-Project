@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const verify = require("../middlewares/verify_token");
 let User = require("../models/user.model");
 
 const { tokenSecret } = require("../config");
@@ -67,7 +68,24 @@ router.route("/signin").post(async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid Password");
 
   const token = jwt.sign({ _id: user._id }, tokenSecret);
-  res.header("auth-token", token).send(token);
+  res.send({ token, user });
+});
+
+//get all users
+router.route("/").post(async (req, res) => {
+  const users = await Post.find();
+  res.json(users);
+});
+
+//get user by id
+router.route("/:id").post(verify, async (req, res) => {
+  const user = await Post.findById(req.params.id);
+  res.json(user);
+});
+
+router.route("/getCurrentUser").get(verify, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.json({ user });
 });
 
 module.exports = router;
