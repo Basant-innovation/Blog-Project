@@ -49,6 +49,6 @@ mongoose
   .then(() => console.log("Connected To mongoose successfully!"))
   .catch((err) => console.error(err));
 
-app.listen(port, () =>
+app.listen(process.env.PORT || port, () =>
   console.log(`blog app listening at http://localhost:${port}`)
 );
