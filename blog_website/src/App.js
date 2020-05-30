@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./redux/actions/users";
 import { connect } from "react-redux";
+import PostDetails from "./components/PostDetails/postDetails";
 
 library.add(fab, faCheckSquare, faCoffee, fas);
 
@@ -36,6 +37,7 @@ const App = (props) => {
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/profile/:id?" component={Profile} />
+        <Route path="/postDetails/:id" component={PostDetails} />
         <Route path="/postForm" component={PostForm} />
         <Route path="/" component={Home} />
       </Switch>

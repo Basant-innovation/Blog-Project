@@ -4,15 +4,19 @@ import HeaderNavbar from "../HeaderNavbar/index";
 import { Container, CardDeck, Pagination } from "react-bootstrap";
 
 import { connect } from "react-redux";
-import "./style.css";
+import "./postDetails.css";
 import { getPostById } from "./../../redux/actions/posts";
 import Post from "./../Post/post";
-import { moment } from "moment";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
-const PostDetails = ({ post, getPostById }) => {
+const PostDetails = ({ getPostById, match }) => {
+  const [post, setPost] = useState({});
   useEffect(() => {
-    getPostById();
-  }, []);
+    if (match.params.id) {
+      getPostById(match.params.id).then((p) => setPost(p));
+    }
+  }, [match.params.id]);
 
   return (
     <React.Fragment>
@@ -26,13 +30,16 @@ const PostDetails = ({ post, getPostById }) => {
             className="postDetailsimg"
             style={{ background: `url(${post.imgUrl})center/cover no-repeat` }}
           ></div>
-          <div>{post.content}</div>
-          <div className="authord">
+          <div className="detailsbody">
+            <h3>{post.title}</h3>
+          </div>
+          <div className="detailsbody">{post.content}</div>
+          <div className="authord d-flex align-items-center">
             <div
               // "imagec"
               className="authordimg"
               style={{
-                background: `url(${post.imgUrl})center/cover no-repeat`,
+                background: `url("/profile.jpg")center/cover no-repeat`,
               }}
             ></div>
             <div class="authorcontent">
@@ -40,7 +47,8 @@ const PostDetails = ({ post, getPostById }) => {
                 {post.author?.username}
               </Link>
               <p className="blogDate">
-                {moment(post.publish_date).format("MMM DD, YYYY")}
+                {post.publish_date &&
+                  moment(post.publish_date).format("MMM DD, YYYY")}
               </p>
             </div>
           </div>
@@ -50,8 +58,8 @@ const PostDetails = ({ post, getPostById }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  post: state.post,
-});
+// const mapStateToProps = (state, ownProps) => ({
+//   post: state.post,
+// });
 
-export default connect(mapStateToProps, { getPostById })(Posts);
+export default connect(null, { getPostById })(PostDetails);

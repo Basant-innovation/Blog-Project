@@ -1,2 +1,25 @@
 .postDetailsimg {
+  height: 400px;
+  border-radius: 20px;
+}
+
+.postDetails {
+  margin-top: 100px;
+}
+
+.detailsbody {
+  font-size: 20px;
+  margin: 20px;
+}
+
+.detailsbody > h3 {
+  font-weight: 900;
+  color: #1c5648;
+}
+
+.authordimg {
+  height: 120px;
+  width: 120px;
+  border-radius: 20px;
+  margin-right: 20px;
 }

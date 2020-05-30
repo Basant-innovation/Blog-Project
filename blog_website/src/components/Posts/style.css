@@ -1,6 +1,7 @@
 .cardsPosts.card-deck {
   flex-direction: column;
   align-items: center;
+  margin-bottom: 30px;
 }
 .cardsPosts.card-deck > .card {
   width: 100% !important;

@@ -55,7 +55,7 @@ export const getPostById = (id) => {
     console.log(id);
     try {
       const res = await axios.get(`http://localhost:5000/posts/${id}`);
-      dispatch({ type: "GET_POST", post: res.data });
+      // dispatch({ type: "GET_POST", post: res.data });
       console.log(res);
       return res.data;
     } catch (err) {

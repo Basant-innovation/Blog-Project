@@ -1,21 +1,17 @@
 import axios from "axios";
 
 export const signUpUser = (user) => {
-  console.log("begening of reducer " + user);
   return async (dispatch) => {
-    console.log("before dispatch");
     dispatch({ type: "SIGNUP_USER" });
-    console.log("after dispatch");
+
     try {
-      console.log("before axios " + user);
       const res = await axios.post("http://localhost:5000/users/signup", user);
-      console.log(res.headers);
+
       return res.user;
     } catch (err) {
-      console.log("error axios " + user);
       if (err.response) {
         console.log(err.response.status);
-        alert(err.response.data);
+        return err.response.data;
       }
     }
   };
@@ -34,7 +30,7 @@ export const signInUser = (user) => {
     } catch (err) {
       if (err.response) {
         console.log(err.response.status);
-        alert(err.response.data);
+        return err.response.data;
       }
     }
   };

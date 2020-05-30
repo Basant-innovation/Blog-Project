@@ -1,32 +1,51 @@
-import React, { useState, useRef } from "react";
-import { Form, Button, Container, Overlay, Tooltip } from "react-bootstrap";
+import React, { useState } from "react";
+import { Form, Button, Container } from "react-bootstrap";
 import Joi from "joi-browser";
-import { createPopper } from "@popperjs/core";
 
 import { signUpUser, signInUser } from "./../../redux/actions/users";
 
 import { connect } from "react-redux";
 
 const SignUp = (props) => {
-  const [show, setShow] = useState(false);
-  const target = useRef(null);
+  const [err, setErr] = useState({});
   const [user, setUser] = useState({
     username: "",
     title: "",
     email: "",
     password: "",
   });
-
-  const schema = Joi.object().keys({
+  // Joi.object().keys
+  const schema = {
     username: Joi.string().min(3).max(30).required(),
     title: Joi.string().required(),
     password: Joi.string()
       .regex(/^[a-zA-Z0-9]{8,30}$/)
       .required(),
     email: Joi.string().email().required(),
-  });
+  };
+
+  const validateInput = (property, name) => {
+    //Sub Schema
+    const inputSchema = { [name]: schema[name] };
+    //validate using Joi
+    const { error } = Joi.validate(property, inputSchema);
+    if (error === null) return null;
+    return error.details[0];
+  };
 
   const onHandleChange = (event) => {
+    //const user = { ...user };
+    const allerr = { ...err };
+    const error = validateInput(
+      { [event.target.name]: event.target.value },
+      event.target.name
+    );
+    if (error === null) {
+      delete allerr[event.target.name];
+    } else {
+      allerr[event.target.name] = error.message;
+    }
+    setErr(allerr);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -35,12 +54,10 @@ const SignUp = (props) => {
     Joi.validate(user, schema, function (err, value) {
       if (err !== null) {
         //showing tooltip of errors
-        setShow(true);
       } else {
-        setShow(false);
-        console.log("before user signed up");
         props.signUpUser(user);
         console.log("after user signed up");
+        props.history.replace("/Signin");
       }
       console.log("err", err);
       console.log("value", value);
@@ -53,7 +70,7 @@ const SignUp = (props) => {
         <Container className="mr-auto form">
           <div className="pageTitle">SIGN UP</div>
           <Form className="formbox" onSubmit={onHandleSubmit}>
-            <Form.Group ref={target} controlId="formBasicName">
+            <Form.Group controlId="formBasicName">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
                 name="username"
@@ -61,14 +78,9 @@ const SignUp = (props) => {
                 placeholder="Ex: Ahmed Ali"
                 onChange={onHandleChange}
               />
-              {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
-              <Overlay target={target.current} show={show} placement="bottom">
-                {(props) => (
-                  <Tooltip id="username" {...props}>
-                    username
-                  </Tooltip>
-                )}
-              </Overlay>
+              {err.username && (
+                <div className="alert alert-danger">{err.username}</div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBasicTile">
@@ -79,6 +91,9 @@ const SignUp = (props) => {
                 placeholder="Ex: Senior Journalist"
                 onChange={onHandleChange}
               />
+              {err.title && (
+                <div className="alert alert-danger">{err.title}</div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBasicEmail">
@@ -89,6 +104,9 @@ const SignUp = (props) => {
                 placeholder="Ex: AhmedAli@mail.com"
                 onChange={onHandleChange}
               />
+              {err.email && (
+                <div className="alert alert-danger">{err.email}</div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
@@ -99,6 +117,9 @@ const SignUp = (props) => {
                 placeholder="Password"
                 onChange={onHandleChange}
               />
+              {err.password && (
+                <div className="alert alert-danger">{err.password}</div>
+              )}
             </Form.Group>
 
             <Button variant="primary" type="submit">

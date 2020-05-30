@@ -14,21 +14,42 @@ import {
 
 const SignIn = (props) => {
   const [show, setShow] = useState(false);
-  const target = useRef(null);
+  const [err, setErr] = useState({});
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  const schema = Joi.object().keys({
+  const schema = {
     password: Joi.string()
       .regex(/^[a-zA-Z0-9]{6,30}$/)
       .required(),
     email: Joi.string().email().required(),
-  });
+  };
+
+  const validateInput = (property, name) => {
+    //Sub Schema
+    const inputSchema = { [name]: schema[name] };
+    //validate using Joi
+    const { error } = Joi.validate(property, inputSchema);
+    if (error === null) return null;
+    return error.details[0];
+  };
 
   const onHandleChange = (event) => {
+    const allerr = { ...err };
+    const error = validateInput(
+      { [event.target.name]: event.target.value },
+      event.target.name
+    );
+    if (error === null) {
+      delete allerr[event.target.name];
+    } else {
+      allerr[event.target.name] = error.message;
+    }
+    setErr(allerr);
+    setUser({ ...user, [event.target.name]: event.target.value });
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -36,9 +57,7 @@ const SignIn = (props) => {
     event.preventDefault();
     Joi.validate(user, schema, async function (err, value) {
       if (err !== null) {
-        setShow(true);
       } else {
-        setShow(false);
         const userResult = await props.signInUser(user);
         console.log(userResult?.token);
         if (userResult?.token) {
@@ -46,8 +65,6 @@ const SignIn = (props) => {
           props.history.replace("/Profile");
         }
       }
-      console.log("err", err);
-      console.log("value", value);
     });
   };
 
@@ -67,6 +84,9 @@ const SignIn = (props) => {
                 placeholder="Enter email"
                 onChange={onHandleChange}
               />
+              {err.email && (
+                <div className="alert alert-danger">{err.email}</div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
@@ -78,7 +98,11 @@ const SignIn = (props) => {
                 onChange={onHandleChange}
               />
             </Form.Group>
-
+            {err.email && (
+              <div className="alert alert-danger">
+                Email or Password are incorrect
+              </div>
+            )}
             <Button type="submit">Sign in</Button>
           </Form>
         </Container>

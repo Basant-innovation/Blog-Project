@@ -34,7 +34,13 @@ const Post = ({ post, currentUser, deletePost, className }) => {
           {/* <Card.Img variant="top" src={post.imgUrl} /> */}
         </div>
         <Card.Body>
-          <div className="d-flex actions">
+          <div
+            className={
+              className == "imagec"
+                ? "d-flex justify-content-center"
+                : "d-flex actions"
+            }
+          >
             <Card.Title>{post.title}</Card.Title>
             {currentUser._id === post.author._id && (
               <div>
@@ -76,7 +82,9 @@ const Post = ({ post, currentUser, deletePost, className }) => {
                 </p>
               </div>
             </div>
-            <Button variant="light">Read More</Button>
+            <Button variant="light" as={Link} to={`/postDetails/${post._id}`}>
+              Read More
+            </Button>
           </div>
         </Card.Body>
       </Card>
