@@ -1,11 +1,13 @@
 import axios from "axios";
 
+const url = "https://bloture-nodejs.herokuapp.com";
+
 export const signUpUser = (user) => {
   return async (dispatch) => {
     dispatch({ type: "SIGNUP_USER" });
 
     try {
-      const res = await axios.post("http://localhost:5000/users/signup", user);
+      const res = await axios.post(`${url}/users/signup`, user);
 
       return res.user;
     } catch (err) {
@@ -22,7 +24,7 @@ export const signInUser = (user) => {
   return async (dispatch) => {
     try {
       console.log("res.response.header");
-      const res = await axios.post("http://localhost:5000/users/signin", user);
+      const res = await axios.post(`${url}/users/signin`, user);
       axios.defaults.headers.common["auth-token"] = res.data.token;
       console.log("after axios" + res.data);
       dispatch({ type: "SIGNIN_USER", user: res.data.user });
@@ -48,7 +50,7 @@ export const getUserById = (id) => {
   return async (dispatch) => {
     console.log(id);
     try {
-      const res = await axios.get(`http://localhost:5000/users/${id}`);
+      const res = await axios.get(`${url}/users/${id}`);
       dispatch({ type: "GET_USER", user: res.data });
       console.log(res);
       return res.data;
@@ -65,7 +67,7 @@ export const getAllUser = () => {
   return async (dispatch) => {
     dispatch({ type: "GETALL_USER" });
     try {
-      const res = await axios.get("http://localhost:5000/users/");
+      const res = await axios.get(`${url}/users`);
       return res.response.header;
     } catch (err) {
       if (err.response) {
@@ -80,8 +82,8 @@ export const toggleFollowUser = (id, follow) => {
   return async (dispatch) => {
     try {
       const res = follow
-        ? await axios.post(`http://localhost:5000/users/follow/${id}`)
-        : await axios.post(`http://localhost:5000/users/unfollow/${id}`);
+        ? await axios.post(`${url}/users/follow/${id}`)
+        : await axios.post(`${url}/users/unfollow/${id}`);
       dispatch({ type: "TOGGLE_FOLLOW", id });
       console.log("follow" + res.data);
       return res.data;
@@ -97,7 +99,7 @@ export const toggleFollowUser = (id, follow) => {
 export const getCurrentUser = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:5000/users/getCurrentUser");
+      const res = await axios.get(`${url}/users/getCurrentUser`);
       dispatch({ type: "GETCURRENT_USER", user: res.data.user });
       return res.data;
     } catch (err) {
