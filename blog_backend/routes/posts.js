@@ -54,10 +54,22 @@ router.route("/add").post(verify, async (req, res) => {
 //edit post
 router.route("/edit/:id").post(verify, (req, res) => {
   Post.findById(req.params.id)
-    .then((post) => {
+    .then(async (post) => {
       post.title = req.body.title;
       post.content = req.body.content;
-      post.imgUrl = req.body.imgUrl;
+
+      let imgUrl = req.file
+        ? `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`
+        : req.body.imgUrl;
+      if (req.file) {
+        try {
+          const result = await cloudinary.v2.uploader.upload(req.file.path);
+          imgUrl = result.secure_url;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      post.imgUrl = imgUrl;
       post.tags = req.body.tags;
       post.date = Date.now();
       post
