@@ -54,7 +54,7 @@ button.btn.btn-light {
 
 .pofCard {
   height: auto;
-  width: 400px;
+  min-width: 400px;
 }
 
 .actions {
