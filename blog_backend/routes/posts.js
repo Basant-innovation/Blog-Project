@@ -19,10 +19,11 @@ router.route("/").get(async (req, res) => {
 
 //add post
 router.route("/add").post(verify, (req, res) => {
-  //res.send(req.user); عشان اعمل التوكن
   const title = req.body.title;
   const content = req.body.content;
-  const imgUrl = req.body.imgUrl;
+  const imgUrl = req.file
+    ? `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`
+    : "";
   const tags = req.body.tags;
   const publish_date = Date.now();
   const author = req.user._id;
@@ -37,7 +38,7 @@ router.route("/add").post(verify, (req, res) => {
 
   newPost
     .save()
-    .then(() => res.json("Post added"))
+    .then(() => res.json(newPost))
     .catch((err) => res.status(400).json("Error" + err));
 });
 
@@ -52,21 +53,24 @@ router.route("/edit/:id").post(verify, (req, res) => {
       post.date = Date.now();
       post
         .save()
-        .then(() => res.json("Post updated!"))
+        .then(() => res.json(post))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error " + err));
 });
 
 //get signedin user posts
-router.route("/myposts").get(verify, async (req, res) => {
-  const myposts = await Post.find({ author: req.user._id });
+router.route("/myposts/:id").get(verify, async (req, res) => {
+  const myposts = await Post.find({ author: req.params.id })
+    .sort({ updatedAt: -1 })
+    .populate("author");
   res.status(200).json(myposts);
 });
 
 //get posts by id
 router.route("/:id").get((req, res) => {
   Post.findById(req.params.id)
+    .populate("author")
     .then((post) => res.json(post))
     .catch((err) => res.status(400).json("Error" + err));
 });

@@ -11,17 +11,6 @@ const {
   signInValidation,
 } = require("../middlewares/validate");
 
-//to make it clean make a folder called controller
-// that has all crud operation functionallity and then import it to this file
-//move this functions to contrller file
-// const createUser = async (req, res) => {
-//   const user = new User(req.body);
-//   const [token] = await Promise.all([user.genereateAuthToken(), user.save()]);
-//   res.status(201).json({ user, token, message: "Signed up Successfully" });
-// };
-
-////////////////////////////////////////////////////////////////////////
-
 //routes to the controllers
 router.route("/signup").post(async (req, res) => {
   //validate
@@ -81,6 +70,28 @@ router.route("/").post(async (req, res) => {
 router.route("/getCurrentUser").get(verify, async (req, res) => {
   const user = await User.findById(req.user._id);
   res.json({ user });
+});
+
+//follow user
+router.route("/follow/:id").post(verify, async (req, res) => {
+  let user = await User.findById(req.user._id);
+  console.log(user);
+  if (user.following.includes(req.params.id)) {
+    return res.status(400).json({ message: "User already followed" });
+  }
+  user.following.push(req.params.id);
+  await user.save();
+  res.status(201).json({ message: "User followed successfully" });
+});
+
+router.route("/unfollow/:id").post(verify, async (req, res) => {
+  let user = await User.findById(req.user._id);
+  if (!user.following.includes(req.params.id)) {
+    return res.status(400).json({ message: "User already unfollowed" });
+  }
+  user.following.pull(req.params.id);
+  await user.save();
+  res.status(201).json({ message: "User unfollowed successfully" });
 });
 
 //get user by id

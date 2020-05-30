@@ -16,7 +16,7 @@ const postSchema = new Schema(
       type: String,
     },
     tags: {
-      type: String,
+      type: [String],
     },
     publish_date: {
       type: Date,
