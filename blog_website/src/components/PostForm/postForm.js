@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
-import { FormGroup, Form, Overlay, Tooltip, Button } from "react-bootstrap";
+import { FormGroup, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { connect } from "react-redux";
 import { addPost, editPost } from "../../redux/actions/posts";
 
 const PostForm = (props) => {
-  const [show, setShow] = useState(false);
   const [tags, setTags] = useState([]);
   const addTags = (e) => {
     if (e.key === "Enter" && e.target.value !== "") {
@@ -64,13 +63,6 @@ const PostForm = (props) => {
             placeholder="Ex: Forest"
             onChange={onHandleChange}
           />
-          <Overlay target={target.current} show={show} placement="bottom">
-            {(props) => (
-              <Tooltip id="username" {...props}>
-                username
-              </Tooltip>
-            )}
-          </Overlay>
         </Form.Group>
         <Form.Group>
           <Form.File.Label>Upload Image</Form.File.Label>

@@ -1,14 +1,11 @@
 import React from "react";
 
 import "./style.css";
-import About from "./../About/index";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Blogs from "../Posts/index";
-import Home from "./../Home/index";
+import { Link } from "react-router-dom";
 
 import { Navbar, Nav } from "react-bootstrap";
 import "./style.css";
-import Search from "../Search";
+
 import { connect } from "react-redux";
 import { logOutUser } from "./../../redux/actions/users";
 

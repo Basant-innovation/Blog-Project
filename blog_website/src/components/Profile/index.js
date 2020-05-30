@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import HeaderNavbar from "./../HeaderNavbar/index";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getMyPost } from "../../redux/actions/posts";
 import { getUserById, toggleFollowUser } from "../../redux/actions/users";
 
@@ -9,7 +8,6 @@ import {
   Button,
   Container,
   Image,
-  Card,
   ListGroup,
   CardDeck,
   Modal,
@@ -34,13 +32,6 @@ const Profile = ({
       getMyPost(userId);
     }
   }, [match.params.id, currentUser._id]);
-
-  console.log(
-    "following user " +
-      currentUser.following +
-      "currentuser id: " +
-      currentUser.username
-  );
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -73,15 +64,12 @@ const Profile = ({
               style={{
                 background: `url("/profile.jpg")center/cover no-repeat`,
               }}
-            >
-              {/* <Image className="InnerPic" src="/profile.jpg" rounded /> */}
-            </div>
+            ></div>
             <div className="profileInfo">
               <div className="authorInfo">
                 <h5>{user.username}</h5>
                 <p>{user.title}</p>
 
-                {/* <Card className="infoNo" style={{ width: "18rem" }}> */}
                 <ListGroup variant="flush" className="listInfo">
                   <ListGroup.Item>
                     <h5>{posts.length}</h5> Posts
@@ -93,7 +81,6 @@ const Profile = ({
                     <h5>{user.following?.length}</h5> following
                   </ListGroup.Item>
                 </ListGroup>
-                {/* </Card> */}
               </div>
             </div>
           </div>

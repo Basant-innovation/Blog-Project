@@ -51,15 +51,11 @@ export const getAllPosts = (page) => {
 
 export const getPostById = (id) => {
   return async (dispatch) => {
-    console.log(id);
     try {
       const res = await axios.get(`${url}/posts/${id}`);
-      // dispatch({ type: "GET_POST", post: res.data });
-      console.log(res);
       return res.data;
     } catch (err) {
       if (err.response) {
-        console.log(err.response.status);
         alert(err.response.data);
       }
     }

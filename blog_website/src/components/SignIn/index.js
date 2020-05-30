@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Redirect, Route } from "react-router";
+import React, { useState } from "react";
+
 import { Form, Button, Container } from "react-bootstrap";
 import "./style.css";
 
@@ -7,13 +7,9 @@ import Joi from "joi-browser";
 import { signInUser } from "./../../redux/actions/users";
 import { getMyPost } from "./../../redux/actions/posts";
 import { connect } from "react-redux";
-import {
-  SetLocalStorage,
-  SetLocalStorageUser,
-} from "./../../utilties/localStorage";
+import { SetLocalStorage } from "./../../utilties/localStorage";
 
 const SignIn = (props) => {
-  const [show, setShow] = useState(false);
   const [err, setErr] = useState({});
 
   const [user, setUser] = useState({
@@ -59,7 +55,6 @@ const SignIn = (props) => {
       if (err !== null) {
       } else {
         const userResult = await props.signInUser(user);
-        console.log(userResult?.token);
         if (userResult?.token) {
           SetLocalStorage(userResult.token);
           props.history.replace("/Profile");
@@ -71,6 +66,10 @@ const SignIn = (props) => {
   return (
     <React.Fragment>
       <header>
+        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
+          <source src="background_video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <Container className="mr-auto form">
           <div className="pageTitle">
             Welcome To <p>Bloture</p>
@@ -106,11 +105,6 @@ const SignIn = (props) => {
             <Button type="submit">Sign in</Button>
           </Form>
         </Container>
-
-        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
-          <source src="background_video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
       </header>
     </React.Fragment>
   );

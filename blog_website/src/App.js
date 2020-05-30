@@ -15,7 +15,7 @@ import {
   faCoffee,
   fas,
 } from "@fortawesome/free-solid-svg-icons";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./redux/actions/users";
 import { connect } from "react-redux";

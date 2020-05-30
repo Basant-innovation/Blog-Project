@@ -1,10 +1,9 @@
-import React, { useState, Component, useEffect } from "react";
-import { Container, Card, Button, CardDeck, Image } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, CardDeck, Image } from "react-bootstrap";
 import { useSpring, animated } from "react-spring";
 import "./style.css";
 import About from "../About/index";
 import HeaderNavbar from "../HeaderNavbar/index";
-import LatestPosts from "../LatestPosts/latestPosts";
 import { connect } from "react-redux";
 import Post from "../Post/post";
 import { getAllPosts } from "./../../redux/actions/posts";

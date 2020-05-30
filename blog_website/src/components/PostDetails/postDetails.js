@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import HeaderNavbar from "../HeaderNavbar/index";
-import { Container, CardDeck, Pagination } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import "./postDetails.css";
 import { getPostById } from "./../../redux/actions/posts";
-import Post from "./../Post/post";
+
 import moment from "moment";
 import { Link } from "react-router-dom";
 
@@ -57,9 +57,5 @@ const PostDetails = ({ getPostById, match }) => {
     </React.Fragment>
   );
 };
-
-// const mapStateToProps = (state, ownProps) => ({
-//   post: state.post,
-// });
 
 export default connect(null, { getPostById })(PostDetails);

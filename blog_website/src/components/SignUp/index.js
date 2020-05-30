@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import Joi from "joi-browser";
 
-import { signUpUser, signInUser } from "./../../redux/actions/users";
+import { signUpUser } from "./../../redux/actions/users";
 
 import { connect } from "react-redux";
 
@@ -53,20 +53,21 @@ const SignUp = (props) => {
     event.preventDefault();
     Joi.validate(user, schema, function (err, value) {
       if (err !== null) {
-        //showing tooltip of errors
+        setErr(err);
       } else {
         props.signUpUser(user);
-        console.log("after user signed up");
         props.history.replace("/Signin");
       }
-      console.log("err", err);
-      console.log("value", value);
     });
   };
 
   return (
     <React.Fragment>
       <header>
+        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
+          <source src="background_video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <Container className="mr-auto form">
           <div className="pageTitle">SIGN UP</div>
           <Form className="formbox" onSubmit={onHandleSubmit}>
@@ -127,10 +128,6 @@ const SignUp = (props) => {
             </Button>
           </Form>
         </Container>
-        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
-          <source src="background_video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
       </header>
     </React.Fragment>
   );

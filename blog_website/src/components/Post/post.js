@@ -7,7 +7,7 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./post.css";
 
-import { Card, Button, Image, Modal } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 
 const Post = ({ post, currentUser, deletePost, className }) => {
   const [show, setShow] = useState(false);
@@ -30,13 +30,11 @@ const Post = ({ post, currentUser, deletePost, className }) => {
           // "imagec"
           className={className}
           style={{ background: `url(${post.imgUrl})center/cover no-repeat` }}
-        >
-          {/* <Card.Img variant="top" src={post.imgUrl} /> */}
-        </div>
+        ></div>
         <Card.Body>
           <div
             className={
-              className == "imagec"
+              className === "imagec"
                 ? "d-flex justify-content-center"
                 : "d-flex actions"
             }
