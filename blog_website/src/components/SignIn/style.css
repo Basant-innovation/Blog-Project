@@ -1,5 +1,6 @@
 .form.container {
-  top: 20%;
+  top: 1%;
+  margin: 10%;
 }
 
 .formbox {
@@ -17,16 +18,17 @@
   font-family: Vivaldi;
 }
 
-/* .btn-primary {
+.btn-primary {
   border-radius: 0 !important;
-  background-color: rgba(236, 243, 243, 0.075) !important;
-  border: 2px solid white !important;
+  background-color: #1c5648 !important;
+  outline: none !important;
+  border-color: none !important;
 }
 
-.btn-primary:hover {
+/* .btn-primary:hover {
   border-radius: 0 !important;
   background-color: white !important;
   border: 2px solid white !important;
   color: #1c5648 !important;
   transition: all 0.3ms;
-} */
+}  */

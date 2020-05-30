@@ -4,7 +4,7 @@ import Joi from "joi-browser";
 import { createPopper } from "@popperjs/core";
 
 import { signUpUser, signInUser } from "./../../redux/actions/users";
-import { SetLocalStorage } from "./../../utilties/localStorage";
+
 import { connect } from "react-redux";
 
 const SignUp = (props) => {
@@ -41,86 +41,76 @@ const SignUp = (props) => {
         console.log("before user signed up");
         props.signUpUser(user);
         console.log("after user signed up");
-        //try to catch errors before redirecting or make sure that the user have registered
-        // const token = SignInUser(user.email, user.password);
-        // SetLocalStorage(token);
-        // props.history.replace("/Profile");
       }
       console.log("err", err);
       console.log("value", value);
     });
   };
 
-  // const validateHandler = (event) => {
-  //   Joi.validate(
-  //     //{ ...user, [event.target.name]: event.target.value },
-  //     { [event.target.name]: event.target.value },
-  //     schema,
-  //     function (err, value) {
-  //       user.concat(value);
-  //       console.log("err", err);
-  //       console.log("value", value);
-  //     }
-  //   );
-  // };
-
   return (
     <React.Fragment>
-      <Container>
-        <Form onSubmit={onHandleSubmit}>
-          <Form.Group ref={target} controlId="formBasicName">
-            <Form.Label>Full Name</Form.Label>
-            <Form.Control
-              name="username"
-              type="text"
-              placeholder="Ex: Ahmed Ali"
-              onChange={onHandleChange}
-            />
-            {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
-            <Overlay target={target.current} show={show} placement="bottom">
-              {(props) => (
-                <Tooltip id="username" {...props}>
-                  username
-                </Tooltip>
-              )}
-            </Overlay>
-          </Form.Group>
+      <header>
+        <Container className="mr-auto form">
+          <div className="pageTitle">SIGN UP</div>
+          <Form className="formbox" onSubmit={onHandleSubmit}>
+            <Form.Group ref={target} controlId="formBasicName">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control
+                name="username"
+                type="text"
+                placeholder="Ex: Ahmed Ali"
+                onChange={onHandleChange}
+              />
+              {/* <Form.Control.Feedback type="valid">You did it!</Form.Control.Feedback> */}
+              <Overlay target={target.current} show={show} placement="bottom">
+                {(props) => (
+                  <Tooltip id="username" {...props}>
+                    username
+                  </Tooltip>
+                )}
+              </Overlay>
+            </Form.Group>
 
-          <Form.Group controlId="formBasicTile">
-            <Form.Label>Your Title</Form.Label>
-            <Form.Control
-              name="title"
-              type="text"
-              placeholder="Ex: Senior Journalist"
-              onChange={onHandleChange}
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicTile">
+              <Form.Label>Your Title</Form.Label>
+              <Form.Control
+                name="title"
+                type="text"
+                placeholder="Ex: Senior Journalist"
+                onChange={onHandleChange}
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              name="email"
-              type="email"
-              placeholder="Ex: AhmedAli@mail.com"
-              onChange={onHandleChange}
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                name="email"
+                type="email"
+                placeholder="Ex: AhmedAli@mail.com"
+                onChange={onHandleChange}
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              onChange={onHandleChange}
-            />
-          </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={onHandleChange}
+              />
+            </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Sign up
-          </Button>
-        </Form>
-      </Container>
+            <Button variant="primary" type="submit">
+              Sign up
+            </Button>
+          </Form>
+        </Container>
+        <video autoplay="autoplay" loop="loop" id="backgroundVideo">
+          <source src="background_video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </header>
     </React.Fragment>
   );
 };

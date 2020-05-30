@@ -1,0 +1,35 @@
+.cardsPosts.card-deck {
+  flex-direction: column;
+  align-items: center;
+}
+.cardsPosts.card-deck > .card {
+  width: 100% !important;
+  flex-wrap: wrap;
+  flex-flow: row;
+  text-align: start;
+  min-width: 500px;
+}
+
+.cardsPosts.card-deck > .author {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blogHeader {
+  display: block;
+  margin-bottom: 50px;
+}
+
+.blogPosts {
+  height: auto;
+}
+
+.cardsPosts > div.imagec {
+  height: max-content;
+  width: 400px;
+}
+
+.page-item.active .page-link {
+  background-color: #1c5648 !important;
+  border-color: #1c5648 !important;
+}

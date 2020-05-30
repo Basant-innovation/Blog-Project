@@ -18,6 +18,7 @@ const usersReducer = (state = usersReducereDefualtValue, action) => {
     case "GETALL_USER":
       return;
     case "TOGGLE_FOLLOW":
+      console.log("toggle follow" + state.currentUser);
       const isFollowing = state.currentUser.following.includes(action.id);
       const newFollowing = isFollowing
         ? state.currentUser.following.filter((id) => id !== action.id)

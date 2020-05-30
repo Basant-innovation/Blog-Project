@@ -1,20 +1,27 @@
 .aboutUs {
+}
+
+.aboutContent {
   display: flex;
   width: 100%;
   height: 100vh;
   padding: 2rem 0rem;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
 }
 .trails-main {
   font-size: 60px;
   font-weight: 900;
-  position: relative;
   right: 30%;
   align-items: center;
   color: #1c5648;
 }
 
 .divAboutImage {
-  width: 2rem;
+  width: 35rem;
+  overflow: hidden;
+}
+
+.divAboutImage > img {
+  width: 35rem;
 }

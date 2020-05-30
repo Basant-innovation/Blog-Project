@@ -3,13 +3,14 @@ import { FormGroup, Form, Overlay, Tooltip, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { connect } from "react-redux";
-import { addPost } from "../../redux/actions/posts";
+import { addPost, editPost } from "../../redux/actions/posts";
 
 const PostForm = (props) => {
   const [show, setShow] = useState(false);
   const [tags, setTags] = useState([]);
   const addTags = (e) => {
-    if (e.key === "Enter" && e.target.value !== "" && e.preventDefault()) {
+    if (e.key === "Enter" && e.target.value !== "") {
+      e.preventDefault();
       setTags([...tags, e.target.value]);
       e.target.value = "";
     }
@@ -21,21 +22,34 @@ const PostForm = (props) => {
   const [post, setPost] = useState({
     title: "",
     content: "",
-    imgUrl: "",
+    image: "",
     tags: [],
   });
 
   const onHandleSubmit = async (event) => {
     event.preventDefault();
     post.tags = tags;
-    console.log(post);
+    const formData = new FormData();
+    formData.append("title", post.title);
+    formData.append("content", post.content);
+    formData.append("image", post.image);
+    post.tags.forEach((tag) => formData.append("tags[]", tag));
 
-    const res = await props.addPost(post);
+    if (props.id) {
+      await props.editPost(props.id, formData);
+    } else {
+      await props.addPost(formData);
+    }
+
     props.handleClose();
   };
 
   const onHandleChange = (event) => {
     setPost({ ...post, [event.target.name]: event.target.value });
+  };
+
+  const onUpload = (event) => {
+    setPost({ ...post, image: event.target.files[0] });
   };
 
   return (
@@ -46,6 +60,7 @@ const PostForm = (props) => {
           <Form.Control
             name="title"
             type="text"
+            value={post.title}
             placeholder="Ex: Forest"
             onChange={onHandleChange}
           />
@@ -57,8 +72,16 @@ const PostForm = (props) => {
             )}
           </Overlay>
         </Form.Group>
-        <Form.File.Label>Upload Image</Form.File.Label>
-        <Form.File id="custom-file" label="Custom file input" custom />
+        <Form.Group>
+          <Form.File.Label>Upload Image</Form.File.Label>
+          <Form.File
+            name="image"
+            id="custom-file"
+            label="Custom file input"
+            onChange={onUpload}
+            custom
+          />
+        </Form.Group>
         <Form.Group controlId="exampleForm.ControlTextarea1">
           <Form.Label>blog Content</Form.Label>
           <Form.Control
@@ -83,11 +106,11 @@ const PostForm = (props) => {
             name="tags"
             type="text"
             placeholder="press enter to add tags"
-            // onKeyUp={(e) => addTags(e)}
+            onKeyDown={(e) => addTags(e)}
           ></Form.Control>
         </FormGroup>
         {/* //props.match.params === "addpost" */}
-        {true ? (
+        {!props.id ? (
           <Button variant="primary" type="submit">
             Add Post
           </Button>
@@ -101,4 +124,4 @@ const PostForm = (props) => {
   );
 };
 
-export default connect(null, { addPost })(PostForm);
+export default connect(null, { addPost, editPost })(PostForm);

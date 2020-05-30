@@ -78,6 +78,7 @@ section {
 
 .imagec {
   height: 200px;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -103,15 +104,11 @@ section {
 }
 
 .ProfileThumbnail {
-  overflow: hidden;
-  width: 50px;
-  height: 50px;
-  border-radius: 0.5rem;
-  align-items: center;
-  display: flex;
-}
-img {
-  width: 50px;
+  border-radius: 10px;
+  height: 4vw;
+  width: 5.5vw;
+  background-size: cover;
+  background-position: center;
 }
 
 .footer {

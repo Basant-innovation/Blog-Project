@@ -43,6 +43,7 @@ export const signInUser = (user) => {
 export const logOutUser = () => {
   return async (dispatch) => {
     localStorage.removeItem("token");
+    delete axios.defaults.headers.common["authorization"];
     dispatch({ type: "LOGOUT_USER" });
   };
 };
@@ -79,9 +80,21 @@ export const getAllUser = () => {
   };
 };
 
-export const toggleFollowUser = () => {
+export const toggleFollowUser = (id, follow) => {
   return async (dispatch) => {
-    dispatch({ type: "TOGGLE_FOLLOW" });
+    try {
+      const res = follow
+        ? await axios.post(`http://localhost:5000/users/follow/${id}`)
+        : await axios.post(`http://localhost:5000/users/unfollow/${id}`);
+      dispatch({ type: "TOGGLE_FOLLOW", id });
+      console.log("follow" + res.data);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.status);
+        alert(err.response.data);
+      }
+    }
   };
 };
 

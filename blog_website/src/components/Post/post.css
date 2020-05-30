@@ -1,0 +1,62 @@
+.crudBtn {
+  margin: 5px !important;
+}
+
+.crudBtn:hover {
+  cursor: pointer;
+}
+
+p.card-text.content {
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
+  height: 3.6em;
+}
+
+.card-title {
+  text-transform: uppercase;
+  font-weight: 900 !important;
+}
+p.card-text > span {
+  background-color: #1c5648;
+  color: white;
+  margin-left: 5px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.card {
+  border: none !important;
+  background-color: beige !important;
+  padding: 5px !important;
+}
+
+.card-buttom {
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-end;
+  flex-wrap: wrap-reverse;
+}
+
+.authorcontent {
+  text-align: left;
+  margin-top: 10% !important;
+}
+
+.authorcontent a,
+.authorcontent p {
+  width: max-content;
+}
+
+button.btn.btn-light {
+  height: max-content !important;
+}
+
+.pofCard {
+  height: auto;
+  width: 400px;
+}
+
+.actions {
+  justify-content: space-between;
+}

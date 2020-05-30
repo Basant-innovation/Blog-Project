@@ -11,22 +11,15 @@
 
 .profileSection {
   display: flex;
-  /* position: absolute; */
-  width: 100%;
-  max-width: 720px;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  height: 200px;
   justify-content: space-between;
 }
 .profilePic {
   overflow: hidden;
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: auto;
   border-radius: 2rem;
   margin-right: 0.2rem;
+  margin-top: 10px;
 }
 
 .InnerPic {
@@ -36,17 +29,16 @@
 .profileInfo {
   display: flex;
   margin: 1rem;
+  margin-bottom: 0;
   text-align: left;
   justify-content: space-between;
 }
 
 .listInfo {
-  flex-direction: row;
-}
-
-.infoNo {
-  font-size: x-small;
-  margin: 0;
+  flex-direction: row !important;
+  justify-content: space-evenly !important;
+  background-color: beige !important;
+  font-size: large;
 }
 
 .actionBtn {
@@ -57,11 +49,23 @@
 .authorInfo > p {
   margin: 0;
   padding: 0;
+  text-transform: uppercase;
+}
+
+.authorInfo > h5 {
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 form.addForm {
   width: 60vw;
-  background-color: #1c5648;
+  /* background-color: #1c5648; */
   padding: 5%;
   margin: 0 auto;
+}
+.list-group-item {
+  color: none !important;
+}
+.list-group {
+  font-size: small;
 }

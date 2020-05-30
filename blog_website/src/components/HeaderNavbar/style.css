@@ -28,3 +28,16 @@ a {
   color: #1c5648 !important;
   margin: auto;
 }
+
+.navbar-toggler {
+  color: #1c5648 !important;
+  border: none !important;
+}
+
+.navbar-collapse.collapse.show {
+  background-color: beige;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  z-index: 1000;
+}

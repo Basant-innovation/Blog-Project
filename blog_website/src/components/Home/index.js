@@ -88,13 +88,11 @@ L178,189.233l1.1-.366q5.8-2.142,11.808-4.807Zm3.03-13.375a2.124,2.124,0,0,1,2.4,
           <h1>Latest Nature Posts</h1>
           <CardDeck>
             {posts.slice(Math.max(posts.length - 3, 0)).map((post) => (
-              <Post key={post.id} posts={post} />
+              <Post key={post.id} post={post} className={"imagec"} />
             ))}
           </CardDeck>
         </section>
-        <section>
-          <About />
-        </section>
+        <About />
       </Container>
       <footer class="footer">
         <p>&copy; 2020 Made by: Basant Amr.</p>

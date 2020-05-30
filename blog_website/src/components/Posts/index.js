@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { ReactDOM } from "react-dom";
+
 import HeaderNavbar from "../HeaderNavbar/index";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Card,
-  Button,
-  CardGroup,
-  CardDeck,
-  Pagination,
-} from "react-bootstrap";
+import { Container, CardDeck, Pagination } from "react-bootstrap";
 
 import { connect } from "react-redux";
-import Post from "../Post/post";
-/*import "./style.css";*/
+import "./style.css";
 import { getAllPosts } from "./../../redux/actions/posts";
+import Post from "./../Post/post";
 
 const Posts = ({ posts, getAllPosts }) => {
   const [total, setTotal] = useState(0);
@@ -39,12 +30,14 @@ const Posts = ({ posts, getAllPosts }) => {
 
   return (
     <React.Fragment>
-      <HeaderNavbar />
+      <div className="blogHeader">
+        <HeaderNavbar />
+      </div>
       <Container>
-        <section>
-          <CardDeck>
+        <section className="blogPosts">
+          <CardDeck className="cardsPosts">
             {posts.map((post) => (
-              <Post key={post.id} posts={post} />
+              <Post key={post.id} post={post} className={"pofCard"} />
             ))}
           </CardDeck>
         </section>

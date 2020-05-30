@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import Post from "./../Post/post";
 import HeaderNavbar from "./../HeaderNavbar/index";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-//import {} from "../../redux/actions/users";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getMyPost } from "../../redux/actions/posts";
-import { getUserById } from "../../redux/actions/users";
+import { getUserById, toggleFollowUser } from "../../redux/actions/users";
 
 import {
-  Form,
   Button,
   Container,
-  Col,
   Image,
   Card,
   ListGroup,
-  CardGroup,
-  CardColumns,
   CardDeck,
   Modal,
 } from "react-bootstrap";
 import "./profile.css";
-import { GetLocalStorageUser } from "./../../utilties/localStorage";
 import PostForm from "../PostForm/postForm";
+import Post from "./../Post/post";
 
 const Profile = ({
   posts,
@@ -30,30 +24,36 @@ const Profile = ({
   user,
   getMyPost,
   getUserById,
+  toggleFollowUser,
   match,
 }) => {
   useEffect(() => {
-    getMyPost();
-    const userId = match.params.id;
-    console.log(userId);
-    if (userId !== undefined) {
+    const userId = match.params.id || currentUser._id;
+    if (userId) {
       getUserById(userId);
-    } else {
-      getUserById(currentUser._id);
+      getMyPost(userId);
     }
-    //user = currentUser;
-    console.log(user);
-  }, [match.params.id]);
+  }, [match.params.id, currentUser._id]);
+
+  console.log(
+    "following user " +
+      currentUser.following +
+      "currentuser id: " +
+      currentUser.username
+  );
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const toggleFollow = (follow) => {
+    toggleFollowUser(user._id, follow);
+  };
 
   return (
     <React.Fragment>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Add</Modal.Title>
         </Modal.Header>
         <div className="overlay">
           <PostForm handleClose={handleClose} />
@@ -63,39 +63,71 @@ const Profile = ({
       <HeaderNavbar />
 
       <div className="profileCover">
-        <Image src="1.jpg" />
+        <Image src="/1.jpg" />
       </div>
-      <section className="profileSection">
-        <div className="profilePic">
-          <Image className="InnerPic" src="profile.jpg" rounded />
-        </div>
-        <div className="profileInfo">
-          <div className="authorInfo">
-            <p>{user.username}</p>
-            <p>{user.title}</p>
+      <Container>
+        <div className="profileSection">
+          <div className="d-flex">
+            <div
+              className="profilePic"
+              style={{
+                background: `url("/profile.jpg")center/cover no-repeat`,
+              }}
+            >
+              {/* <Image className="InnerPic" src="/profile.jpg" rounded /> */}
+            </div>
+            <div className="profileInfo">
+              <div className="authorInfo">
+                <h5>{user.username}</h5>
+                <p>{user.title}</p>
 
-            <Card className="infoNo" style={{ width: "18rem" }}>
-              <ListGroup variant="flush" className="listInfo">
-                <ListGroup.Item>19 Posts</ListGroup.Item>
-                <ListGroup.Item>180 Followers</ListGroup.Item>
-                <ListGroup.Item>{user.following}</ListGroup.Item>
-              </ListGroup>
-            </Card>
+                {/* <Card className="infoNo" style={{ width: "18rem" }}> */}
+                <ListGroup variant="flush" className="listInfo">
+                  <ListGroup.Item>
+                    <h5>{posts.length}</h5> Posts
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <h5>{user.followers?.length}</h5> followers
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <h5>{user.following?.length}</h5> following
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* </Card> */}
+              </div>
+            </div>
+          </div>
+          <div>
+            {currentUser._id !== user._id ? (
+              <div>
+                {!currentUser?.following?.includes(user?._id) ? (
+                  <Button
+                    className="actionBtn"
+                    onClick={() => toggleFollow(true)}
+                  >
+                    Follow
+                  </Button>
+                ) : (
+                  <Button
+                    className="actionBtn"
+                    onClick={() => toggleFollow(false)}
+                  >
+                    UnFollow
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <Button className="actionBtn" onClick={handleShow}>
+                Add Post
+              </Button>
+            )}
           </div>
         </div>
-        {currentUser._id !== user._id ? (
-          <Button className="actionBtn">Follow</Button>
-        ) : (
-          <Button className="actionBtn" onClick={handleShow}>
-            Add Post
-          </Button>
-        )}
-      </section>
-
+      </Container>
       <Container>
-        <CardDeck className="">
+        <CardDeck className="cardsPosts">
           {posts.map((post) => (
-            <Post key={post.id} posts={post} />
+            <Post key={post._id} post={post} className={"pofCard"} />
           ))}
         </CardDeck>
       </Container>
@@ -108,7 +140,8 @@ const mapStateToProps = (state, ownProps) => ({
   currentUser: state.users.currentUser,
   user: state.users.user,
 });
-// const mapDispatchToProps = (dispatch, ownProps) => ({
-//   signIn : dispatch(sin)
-// })
-export default connect(mapStateToProps, { getMyPost, getUserById })(Profile);
+export default connect(mapStateToProps, {
+  getMyPost,
+  getUserById,
+  toggleFollowUser,
+})(Profile);
