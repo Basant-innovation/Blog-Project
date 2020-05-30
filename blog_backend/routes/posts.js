@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require("cloudinary");
 const verify = require("../middlewares/verify_token");
 
 let Post = require("../models/post.model");
@@ -18,12 +19,20 @@ router.route("/").get(async (req, res) => {
 });
 
 //add post
-router.route("/add").post(verify, (req, res) => {
+router.route("/add").post(verify, async (req, res) => {
   const title = req.body.title;
   const content = req.body.content;
-  const imgUrl = req.file
+  let imgUrl = req.file
     ? `${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`
     : "";
+  if (req.file) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(req.file.path);
+      imgUrl = result.secure_url;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const tags = req.body.tags;
   const publish_date = Date.now();
   const author = req.user._id;

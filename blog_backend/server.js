@@ -3,6 +3,11 @@ var cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 
+const port = 5000;
+
+const mongoose = require("mongoose");
+const { dBUrl } = require("./config");
+
 const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
 
@@ -22,11 +27,6 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage, limits: { fileSize: 1000000 } }).single(
   "image"
 );
-
-const port = 5000;
-
-const mongoose = require("mongoose");
-const { dBUrl } = require("./config");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
